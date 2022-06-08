@@ -34,13 +34,13 @@ class MyHomePage extends StatelessWidget {
   _buildAppBar() {
     return AppBar(
       title: const Text('Tic Tac Toe'),
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.black,
     );
   }
 
   _buildBody(context) {
     return Container(
-      color: Colors.amber[600],
+      color: Colors.grey,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: GridView.count(
@@ -52,7 +52,7 @@ class MyHomePage extends StatelessWidget {
           children: List.generate(9, (index) {
             return Container(
                 padding: const EdgeInsets.all(8),
-                color: Colors.yellow,
+                decoration: BoxDecoration (border: Border.all(color: Colors.black), color: Colors.white, borderRadius: BorderRadius.circular(10) ),
                 child: Text('Item $index'));
           })),
     );
