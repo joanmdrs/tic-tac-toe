@@ -5,6 +5,7 @@ import 'package:tictactoe/enums/players_enum.dart';
 class TicTacToeModel {
   Map<int, String> board = new Map();
   late Brand currentBrand;
+  late Player currentPlayer;
 
   Map<int, String> getBoard() => board;
 
@@ -32,10 +33,32 @@ class TicTacToeModel {
   }
 
   bool Finish() {
-    return true;
+    if(board[0] ==  board[1] && board[0] ==  board[2] && board[0] != null){
+      return true;
+    } else if(board[0] == board[3] && board[0] == board[6] && board[0] != null){
+      return true;
+    } else if(board[0] == board[4] && board[0] == board[8] && board[0] != null){
+      return true;
+    } else if(board[1] == board[4] && board[1] == board[7] && board[1] != null){
+      return true;
+    } else if(board[2] == board[5] && board[2] == board[8] && board[2] != null){
+      return true;
+    } else if(board[2] == board[4] && board[2] == board[6] && board[2] != null){
+      return true;
+    } else if(board[3] == board[4] && board[3] == board[5] && board[3] != null){
+      return true;
+    } else if(board[6] == board[7] && board[6] == board[8] && board[6] != null){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   int CheckTheWinner() {
-    return 1;
+    if(Player.player1 == currentPlayer){
+      return 2;
+    } else {
+      return 1;
+    }
   }
 }
