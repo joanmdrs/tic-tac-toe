@@ -34,6 +34,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int state = 1;
   GameController game = GameController();
   late Map<int, String> board = game.GetBoard();
+  int play = 0;
+  String winner = "";
 
   void _modifyState(int pos) {
     setState(() {
@@ -42,7 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         state = 0;
       }
-      game.Mark(pos, state);
+      play = game.Mark(pos, state);
+      winner = game.returnWinner(play);
     });
   }
 
@@ -61,13 +64,36 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  _buildBody(context) {
-    return Container(
-      color: Colors.grey,
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: _buildBoard(),
+  _buildWinner(){
+    return Center(
+      child: Text(
+        "winner: $winner",
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
     );
+  }
+
+  _buildBody(context) {
+    return Column(
+      children: [
+      Container(
+        height: 500,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.grey,
+        child: _buildBoard(),
+      ),
+      Container(
+        height: 200,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.red,
+        child: _buildWinner(),
+      ),
+    ]);
+    
   }
 
   _buildBoard() {

@@ -1,15 +1,15 @@
 import 'package:tictactoe/enums/brand_enum.dart';
+import 'package:tictactoe/enums/players_enum.dart';
 import 'package:tictactoe/models/tic_tac_toe_model.dart';
 
 class GameController {
   TicTacToeModel game = new TicTacToeModel();
 
   Map<int, String> GetBoard() => game.getBoard();
-  GameController(){
+  GameController() {
     InitializeBoard();
   }
 
-  
   void InitializeBoard() {
     game.board[0] = "";
     game.board[1] = "";
@@ -22,14 +22,31 @@ class GameController {
     game.board[8] = "";
   }
 
-  bool Mark(int pos, int state) {
+  void reset() {
+    InitializeBoard();
+  }
+
+  String returnWinner(int play) {
+    if (play == 1) {
+      return "O vencedor foi o jogador número 2";
+    } else if (play == 2) {
+      return "O vencedor foi o jogador número 1";
+    } else {
+      return "O jogo terminou empatado";
+    }
+  }
+
+  int Mark(int pos, int state) {
     game.DecideTheTurn(state);
     bool checkPos = game.CheckPosition(pos);
     if (checkPos == true) {
       game.MarkOnBoard(pos);
-      return true;
-    } else {
-      return false;
+      if (game.Finish() == true) {
+        return game.CheckTheWinner();
+      } else if (game.Finish() == false && game.CheckVelha() == true) {
+        return 0;
+      }
     }
+    return -1;
   }
 }
