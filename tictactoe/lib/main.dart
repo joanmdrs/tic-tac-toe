@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/controllers/tic_tac_toe_controller.dart';
 import 'package:tictactoe/enums/brand_enum.dart';
+import 'package:tictactoe/models/tic_tac_toe_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,19 +31,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int turn = 0;
+  int state = 1;
+  GameController game = GameController();
+  late Map<int, String> board = game.GetBoard();
 
-  TicTacToeController controller = new TicTacToeController();
-  String brand = "";
-  String mark = "1";
-
-  void _modifyState() {
+  void _modifyState(int pos) {
     setState(() {
-      if (turn == 0) {
-        turn = 1;
+      if (state == 0) {
+        state = 1;
       } else {
-        turn = 0;
+        state = 0;
       }
+      game.Mark(pos, state);
     });
   }
 
@@ -78,19 +78,20 @@ class _MyHomePageState extends State<MyHomePage> {
       mainAxisSpacing: 5,
       crossAxisCount: 3,
       children: List.generate(9, (index) {
-        return Container(color: Colors.white, child: _buildMark(index));
+        int i = index;
+        return Container(color: Colors.white, child: _buildMark(i));
       }),
     );
   }
 
-  _buildMark(index) {
+  _buildMark(int index) {
+    String? tile = board[index];
     return TextButton(
         style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
         onPressed: () {
-          _modifyState();
-          mark = "5";
+          _modifyState(index);
         },
-        child: Text(('$mark'), style: TextStyle(fontSize: 80)));
+        child: Text(('$tile'), style: TextStyle(fontSize: 80)));
   }
 }
