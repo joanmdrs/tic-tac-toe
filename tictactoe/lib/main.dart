@@ -49,22 +49,51 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _reset() {
+    setState(() {
+      state = 1;
+      game.reset();
+      board = game.GetBoard();
+      play = 0;
+      winner = "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(context),
-    );
+        appBar: _buildAppBar(),
+        body: _buildBody(context),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                _reset();
+              },
+              tooltip: 'Reset',
+              child: const Icon(Icons.auto_mode),
+              backgroundColor: Colors.black,
+            ),
+            // FloatingActionButton(
+            //   onPressed: (() => controller.reset()),
+            //   tooltip: 'Undo',
+            //   child: const Icon(Icons.undo),
+            //   backgroundColor: Colors.black,
+            // ),
+          ],
+        ));
   }
 
   _buildAppBar() {
     return AppBar(
       title: const Text('Tic Tac Toe'),
+      centerTitle: true,
       backgroundColor: Colors.black,
     );
   }
 
-  _buildWinner(){
+  _buildWinner() {
     return Center(
       child: Text(
         "winner: $winner",
@@ -78,22 +107,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _buildBody(context) {
-    return Column(
-      children: [
+    return Column(children: [
       Container(
-        height: 500,
+        height: 400,
         width: MediaQuery.of(context).size.width,
         color: Colors.grey,
         child: _buildBoard(),
       ),
       Container(
-        height: 200,
+        height: 367.636,
         width: MediaQuery.of(context).size.width,
-        color: Colors.red,
+        color: Colors.grey,
         child: _buildWinner(),
-      ),
+      )
     ]);
-    
   }
 
   _buildBoard() {
@@ -114,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String? tile = board[index];
     return TextButton(
         style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
         onPressed: () {
           _modifyState(index);
         },

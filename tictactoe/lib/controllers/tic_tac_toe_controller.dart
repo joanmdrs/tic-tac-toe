@@ -27,13 +27,14 @@ class GameController {
   }
 
   String returnWinner(int play) {
-    if (play == 1) {
-      return "O vencedor foi o jogador número 2";
-    } else if (play == 2) {
-      return "O vencedor foi o jogador número 1";
-    } else {
+    if (play == 1 && game.Finish() == true) {
+      return "jogador O";
+    } else if (play == 2 && game.Finish() == true) {
+      return "jogador X";
+    } else if (game.Finish() == true){
       return "O jogo terminou empatado";
     }
+    return "";
   }
 
   int Mark(int pos, int state) {
