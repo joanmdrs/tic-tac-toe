@@ -28,11 +28,11 @@ class GameController {
 
   String returnWinner(int play) {
     if (play == 1 && game.Finish() == true) {
-      return "jogador O";
+      return "Jogador O!!";
     } else if (play == 2 && game.Finish() == true) {
-      return "jogador X";
-    } else if (game.Finish() == true){
-      return "O jogo terminou empatado";
+      return "Jogador X!!";
+    } else if (play == 0){
+      return "Empate!!";
     }
     return "";
   }
