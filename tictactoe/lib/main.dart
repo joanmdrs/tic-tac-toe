@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/controllers/tic_tac_toe_controller.dart';
+import 'package:tictactoe/enums/brand_enum.dart';
+import 'package:tictactoe/models/tic_tac_toe_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -34,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   GameController game = GameController();
   late Map<int, String> board = game.GetBoard();
   int play = 0;
-  int currentTile = 5;
+  List<int> listPlays = List.empty(growable: true);
   String winner = "";
 
   void _modifyState(int pos) {
@@ -44,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         state = 0;
       }
-      currentTile = pos;
+      listPlays.add(pos);
       play = game.Mark(pos, state);
       winner = game.returnWinner(play);
     });
@@ -56,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       game.reset();
       board = game.GetBoard();
       play = 0;
+      listPlays.clear();
       winner = "";
     });
   }
@@ -67,7 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         state = 0;
       }
-      board[currentTile] = "";
+      if(listPlays.length != 0){
+        int pos = listPlays.removeLast();
+        board[pos] = "";
+      }
     });
   }
 
@@ -170,7 +176,6 @@ class _MyHomePageState extends State<MyHomePage> {
             foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
         onPressed: () {
           _modifyState(index);
-          currentTile = index;
         },
         child: Text(('$tile'),
             style: GoogleFonts.nunitoSans(
