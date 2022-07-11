@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/controllers/tic_tac_toe_controller.dart';
 import 'package:tictactoe/enums/brand_enum.dart';
+import 'package:tictactoe/models/command.dart';
 import 'package:tictactoe/models/tic_tac_toe_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tictactoe/models/undo_command.dart';
 
 void main() {
   runApp(const MyApp());
@@ -70,12 +72,16 @@ class _MyHomePageState extends State<MyHomePage> {
       if (state == 0) {
         state = 1;
       } else {
-        state = 0;
+        state = 0; 
       }
-      if (listPlays.length != 0) {
-        int pos = listPlays.removeLast();
-        board[pos] = "";
-      }
+      var command = UndoCommand(board, listPlays);
+      _executeCommand(command);
+    });
+  }
+
+  void _executeCommand(Command command) {
+    setState(() {
+      command.execute();
     });
   }
 
