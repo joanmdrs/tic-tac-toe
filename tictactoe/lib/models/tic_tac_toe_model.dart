@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tictactoe/enums/brand_enum.dart';
 import 'package:tictactoe/enums/players_enum.dart';
@@ -38,7 +39,7 @@ class TicTacToeModel {
   }
 
   bool CheckVelha() {
-    if (contador == 7 && Finish() == false) {
+    if (contador >= 8 && Finish() == false) {
       return true;
     }
     return false;

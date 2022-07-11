@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int play = 0;
   List<int> listPlays = List.empty(growable: true);
   String winner = "";
+  int colorIndex = -1;
 
   void _modifyState(int pos) {
     setState(() {
@@ -46,8 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         state = 0;
       }
-      listPlays.add(pos);
+      colorIndex = pos;
       play = game.Mark(pos, state);
+      listPlays.add(pos);
       winner = game.returnWinner(play);
     });
   }
@@ -70,11 +72,20 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         state = 0;
       }
-      if(listPlays.length != 0){
+      if (listPlays.length != 0) {
         int pos = listPlays.removeLast();
         board[pos] = "";
       }
     });
+  }
+
+  int _changeColor(int index) {
+    if (board[index] == "X") {
+      return 1;
+    } else if (board[index] == "O") {
+      return 2;
+    }
+    return 3;
   }
 
   @override
@@ -122,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _buildWinner() {
     return Center(
       child: Text(
-        "winner: $winner",
+        "$winner",
         style: const TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.bold,
@@ -171,8 +182,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _buildMark(int index) {
     String? tile = board[index];
+    int decider = _changeColor(index);
+    Color color = Colors.white;
+    if (decider == 1) {
+      color = Colors.blue;
+    } else if (decider == 2) {
+      color = Colors.red;
+    }
     return TextButton(
         style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(color),
             foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
         onPressed: () {
           _modifyState(index);
