@@ -42,13 +42,17 @@ class _MyHomePageState extends State<MyHomePage> {
   String winner = "";
   int colorIndex = -1;
 
-  void _modifyState(int pos) {
+  void _setState() {
+    if (state == 0) {
+      state = 1;
+    } else {
+      state = 0;
+    }
+  }
+
+  void _playMove(int pos) {
     setState(() {
-      if (state == 0) {
-        state = 1;
-      } else {
-        state = 0;
-      }
+      _setState();
       colorIndex = pos;
       play = game.Mark(pos, state);
       listPlays.add(pos);
@@ -69,13 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _undo() {
     setState(() {
-      if (state == 0) {
-        state = 1;
-      } else {
-        state = 0; 
-      }
+      _setState();
       var command = UndoCommand(board, listPlays);
       _executeCommand(command);
+      winner = "";
     });
   }
 
@@ -152,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _buildBody(context) {
     return Container(
         height: MediaQuery.of(context).size.height,
-        color: Colors.orangeAccent,
+        color: Colors.white,
         child: Column(
           children: [
             Container(
@@ -160,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(0.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.orangeAccent, width: 10.0)),
+                  border: Border.all(color: Colors.white, width: 10.0)),
               child: _buildBoard(),
             ),
             Container(
@@ -189,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _buildMark(int index) {
     String? tile = board[index];
     int decider = _changeColor(index);
-    Color color = Colors.white;
+    Color color = Colors.grey;
     if (decider == 1) {
       color = Colors.blue;
     } else if (decider == 2) {
@@ -198,9 +199,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return TextButton(
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(color),
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white)),
         onPressed: () {
-          _modifyState(index);
+          _playMove(index);
         },
         child: Text(('$tile'),
             style: GoogleFonts.nunitoSans(
