@@ -21,6 +21,19 @@ class TicTacToeModel {
     }
   }
 
+  void InitializeBoard() {
+    board[0] = "";
+    board[1] = "";
+    board[2] = "";
+    board[3] = "";
+    board[4] = "";
+    board[5] = "";
+    board[6] = "";
+    board[7] = "";
+    board[8] = "";
+    contador = 0;
+  }
+
   void DecideTheTurn(int state) {
     if (state == 0) {
       currentBrand = Brand.XIS;
@@ -76,4 +89,32 @@ class TicTacToeModel {
       return 0;
     }
   }
+
+  int Mark(int pos, int state) {
+    if (Finish() == false) {
+      DecideTheTurn(state);
+      bool checkPos = CheckPosition(pos);
+      if (checkPos == true) {
+        MarkOnBoard(pos);
+        if (Finish() == true) {
+          return CheckTheWinner();
+        } else if (Finish() == false && CheckVelha() == true) {
+          return 0;
+        }
+      }
+    }
+    return -1;
+  }
+
+  String returnWinner(int play) {
+    if (play == 1 && Finish() == true) {
+      return "Vencedor: Jogador O!!";
+    } else if (play == 2 && Finish() == true) {
+      return "Vencedor: Jogador X!!";
+    } else if (play == 0) {
+      return "Empate!!";
+    }
+    return "";
+  }
+
 }
